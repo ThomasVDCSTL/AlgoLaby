@@ -1,0 +1,33 @@
+html{
+    box-sizing: border-box;
+    padding: 0px;
+    margin: 0px;
+}
+div{
+    box-sizing: border-box;
+    background: grey;
+    height: 100px;
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+article{
+    display: flex;
+    flex-wrap: wrap;
+}
+.entrance,.exit{
+    background: aqua;
+}
+.topwall{
+    border-top: black solid 1px;
+}
+.bottomwall{
+    border-bottom: black solid 1px;
+}
+.rightwall{
+    border-right: black solid 1px;
+}
+.leftwall{
+    border-left: black solid 1px;
+}
