@@ -16,9 +16,6 @@ article{
     display: flex;
     flex-wrap: wrap;
 }
-.entrance,.exit{
-    background: aqua;
-}
 .topwall{
     border-top: black solid 1px;
 }
