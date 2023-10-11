@@ -4,7 +4,9 @@ include_once 'header.php';
 
 ?>
 
-
+    <article style="width: 200px;height: 200px">
+        <button onclick="monLaby.solve()" style="width: 200px;height: 200px">Play</button>
+    </article>
 
 
 <script src="labyrinthes.js"></script>

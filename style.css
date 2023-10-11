@@ -15,6 +15,7 @@ div{
 article{
     display: flex;
     flex-wrap: wrap;
+    flex-direction: row;
 }
 .topwall{
     border-top: black solid 1px;
@@ -27,4 +28,11 @@ article{
 }
 .leftwall{
     border-left: black solid 1px;
+}
+p{
+    border: black 1px solid;
+    background: white;
+    height: 30px;
+    width: 30px;
+    border-radius: 20px;
 }
