@@ -6,7 +6,8 @@ class Laby {
         this.tiles=[]
         this.posXplayer
         this.posYplayer
-        this.uncompletedIntersections=[]
+        this.stack=[]
+        this.pas=0
     }
 
 
@@ -23,17 +24,10 @@ class Laby {
     }
     solve(){
         let exit=this.tiles.find((elem)=>elem.details.exit)
-        if (!(this.posXplayer===exit.posX&&this.posYplayer===exit.posY)){
+        while (!(this.posXplayer===exit.posX&&this.posYplayer===exit.posY)){
             this.erasePlayerMark()
-            let tempX=this.findWay().posX
-            let tempY=this.findWay().posY
-            this.getTileInfo(this.posXplayer,this.posYplayer).visiting()
-            this.posXplayer=tempX
-            this.posYplayer=tempY
-            console.log("x="+this.posXplayer)
-            console.log("y="+this.posYplayer)
-            // this.posXplayer=exit.posX
-            // this.posYplayer=exit.posY
+            let temp = this.findWay()
+            this.goTo(temp)
             this.displayPlayerMark()
         }
 
@@ -53,24 +47,53 @@ class Laby {
     getTileInfo(X,Y){
         return this.tiles.find((elem)=>(elem.posY===Y&&elem.posX===X))
     }
+    isIntersection(X,Y){
+        let res=0;
+        if (!this.getTileInfo(this.posXplayer,this.posYplayer).walls[1]&&!this.getRightTile(this.posXplayer,this.posYplayer).isVisited()){
+            res += 1;
+        }
+        if (!this.getTileInfo(this.posXplayer,this.posYplayer).walls[2]&&!this.getBottomTile(this.posXplayer,this.posYplayer).isVisited()){
+            res += 1;
+        }
+        if (!this.getTileInfo(this.posXplayer,this.posYplayer).walls[3]&&!this.getLeftTile(this.posXplayer,this.posYplayer).isVisited()){
+            res += 1;
+        }
+        if (!this.getTileInfo(this.posXplayer,this.posYplayer).walls[0]&&!this.getTopTile(this.posXplayer,this.posYplayer).isVisited()) {
+            res += 1;
+        }
+        if (this.stack.find(elem=>elem.posX===this.posXplayer&&elem.posY===this.posYplayer)===undefined){this.stack.push(this.getTileInfo(this.posXplayer,this.posYplayer))}
+        console.log(this.stack,res)
+        if (res<2){
+            this.stack.pop();
+        }
+        return res
+    }
+    goTo(tile){
+        let tempX=tile.posX
+        let tempY=tile.posY
+        this.getTileInfo(this.posXplayer,this.posYplayer).visiting()
+        this.posXplayer=tempX
+        this.posYplayer=tempY
+        console.log("x="+this.posXplayer)
+        console.log("y="+this.posYplayer)
+        // this.posXplayer=exit.posX
+        // this.posYplayer=exit.posY
+        console.log("liste :",this.stack)
+    }
 
     findWay(){
-        if (!this.getTileInfo(this.posXplayer,this.posYplayer).walls[1]&&!this.getRightTile(this.posXplayer,this.posYplayer).isVisited()){
-            return this.getRightTile(this.posXplayer,this.posYplayer)
-        } else if (!this.getTileInfo(this.posXplayer,this.posYplayer).walls[2]&&!this.getBottomTile(this.posXplayer,this.posYplayer).isVisited()){
-            return this.getBottomTile(this.posXplayer,this.posYplayer)
-        }else if (!this.getTileInfo(this.posXplayer,this.posYplayer).walls[3]&&!this.getLeftTile(this.posXplayer,this.posYplayer).isVisited()){
-            return this.getLeftTile(this.posXplayer,this.posYplayer)
-        }else if (!this.getTileInfo(this.posXplayer,this.posYplayer).walls[0]&&!this.getTopTile(this.posXplayer,this.posYplayer).isVisited()){
-            return this.getTopTile(this.posXplayer,this.posYplayer)
-        }else if (!this.getTileInfo(this.posXplayer,this.posYplayer).walls[0]){
-            return this.getTopTile(this.posXplayer,this.posYplayer)
-        } else if (!this.getTileInfo(this.posXplayer,this.posYplayer).walls[3]){
-            return this.getLeftTile(this.posXplayer,this.posYplayer)
-        }else if (!this.getTileInfo(this.posXplayer,this.posYplayer).walls[2]){
-            return this.getBottomTile(this.posXplayer,this.posYplayer)
-        }else if (!this.getTileInfo(this.posXplayer,this.posYplayer).walls[1]){
-            return this.getRightTile(this.posXplayer,this.posYplayer)
+        if (this.isIntersection(this.posXplayer,this.posYplayer)>0){
+            if (!this.getTileInfo(this.posXplayer,this.posYplayer).walls[1]&&!this.getRightTile(this.posXplayer,this.posYplayer).isVisited()){
+                return this.getRightTile(this.posXplayer,this.posYplayer)
+            } else if (!this.getTileInfo(this.posXplayer,this.posYplayer).walls[2]&&!this.getBottomTile(this.posXplayer,this.posYplayer).isVisited()){
+                return this.getBottomTile(this.posXplayer,this.posYplayer)
+            }else if (!this.getTileInfo(this.posXplayer,this.posYplayer).walls[3]&&!this.getLeftTile(this.posXplayer,this.posYplayer).isVisited()){
+                return this.getLeftTile(this.posXplayer,this.posYplayer)
+            }else if (!this.getTileInfo(this.posXplayer,this.posYplayer).walls[0]&&!this.getTopTile(this.posXplayer,this.posYplayer).isVisited()){
+                return this.getTopTile(this.posXplayer,this.posYplayer)
+            }
+        } else {
+            return this.stack[this.stack.length-1]
         }
     }
     initPlayer(){
@@ -78,12 +101,12 @@ class Laby {
         this.posXplayer=entrance.posX
         this.posYplayer=entrance.posY
     }
-    displayPlayerMark(X,Y){
+    displayPlayerMark(){
         let pion=document.createElement("p")
         document.getElementById(this.posXplayer+"-"+this.posYplayer).append(pion)
     }
     erasePlayerMark(){
-        document.getElementById(this.posXplayer+"-"+this.posYplayer).setHTML("x")
+        document.getElementById(this.posXplayer+"-"+this.posYplayer).setHTML(this.pas++)
     }
 }
 

@@ -1,4 +1,3 @@
-let monLaby = new Laby("25","ex-0")
+let monLaby = new Laby("25","ex-2")
 monLaby.display()
-
 monLaby.initPlayer()
