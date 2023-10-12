@@ -4,8 +4,12 @@ include_once 'header.php';
 
 ?>
 
-    <article style="width: 200px;height: 200px">
-        <button onclick="monLaby.solve()" style="width: 200px;height: 200px">Play</button>
+
+    <article id="container" style="width: 2500px;height: 200px">
+        <button onclick="faisUnTruc()" style="width: 100%;height: 200px;font-size: 100px">Play</button>
+    </article>
+    <article id="container" style="width: 2500px;height: 200px">
+        <button onclick="faisUnAutreTruc()" style="width: 100%;height: 200px;font-size: 100px">Play but faster</button>
     </article>
 
 

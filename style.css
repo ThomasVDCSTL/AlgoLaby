@@ -3,6 +3,10 @@ html{
     padding: 0px;
     margin: 0px;
 }
+body{
+    display: flex;
+    flex-direction: column;
+}
 div{
     box-sizing: border-box;
     background: grey;
